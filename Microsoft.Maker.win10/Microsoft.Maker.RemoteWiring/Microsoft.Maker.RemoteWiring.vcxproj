@@ -212,11 +212,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\RemoteWiring\RemoteDevice.h" />
+    <ClInclude Include="..\..\source\RemoteWiring\ServoControl.h" />
     <ClInclude Include="..\..\source\RemoteWiring\TwoWire.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\source\RemoteWiring\RemoteDevice.cpp" />
+    <ClCompile Include="..\..\source\RemoteWiring\ServoControl.cpp" />
     <ClCompile Include="..\..\source\RemoteWiring\TwoWire.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

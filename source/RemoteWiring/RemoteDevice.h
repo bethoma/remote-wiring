@@ -26,6 +26,7 @@
 
 #include <cstdint>
 #include "TwoWire.h"
+#include "ServoControl.h"
 
 namespace Microsoft {
 namespace Maker {
@@ -62,12 +63,15 @@ public ref class RemoteDevice sealed {
 
 	//singleton reference for I2C
 	I2c::TwoWire ^_twoWire;
+	Servo::ServoControl ^_servo;
 
 public:
 	event DigitalPinUpdatedCallback ^ DigitalPinUpdatedEvent;
 	event AnalogPinUpdatedCallback ^ AnalogPinUpdatedEvent;
 	event SysexMessageReceivedCallback ^ SysexMessageReceivedEvent;
 	event StringMessageReceivedCallback ^ StringMessageReceivedEvent;
+	friend class TwoWire;
+	friend class ServoControl;
 
 	property I2c::TwoWire ^ I2c
 	{
@@ -78,6 +82,18 @@ public:
 				_twoWire = ref new Microsoft::Maker::RemoteWiring::I2c::TwoWire( _firmata );
 			}
 			return _twoWire;
+		}
+	};
+
+	property Servo::ServoControl ^ Servos
+	{
+		Microsoft::Maker::RemoteWiring::Servo::ServoControl ^ get()
+		{
+			if( _servo == nullptr )
+			{
+				_servo = ref new Microsoft::Maker::RemoteWiring::Servo::ServoControl( _firmata );
+			}
+			return _servo;
 		}
 	};
 
