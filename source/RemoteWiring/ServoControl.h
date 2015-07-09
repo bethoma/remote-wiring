@@ -23,19 +23,25 @@
 */
 
 #pragma once
+#include "RemoteDevice.h"
 
 namespace Microsoft {
 namespace Maker {
 namespace RemoteWiring {
-
-ref class RemoteDevice;
 
 namespace Servo {
 
 public ref class ServoControl sealed
 {
 public:
-	friend ref class RemoteDevice;
+
+	ServoControl(
+		RemoteWiring::RemoteDevice ^ device_
+		) :
+		_device( device_ )
+	{
+		_firmata = _device->_firmata;
+	}
 
 	void
 	attach(
@@ -57,20 +63,10 @@ public:
 	
 
 private:
-
-	//singleton pattern w/ friend class to instantiate
-	ServoControl(
-		Firmata::UwpFirmata ^ firmata_,
-		RemoteWiring::RemoteDevice ^ device_
-		) :
-		_firmata( firmata_ ),
-		_device( device_ )
-	{
-	}
 	
-	//a reference to the UAP firmata interface
-	Firmata::UwpFirmata ^_firmata;
+	//a reference to the device this servo is associated with
 	RemoteWiring::RemoteDevice ^ _device;
+	Firmata::UwpFirmata ^_firmata;
 
 	uint8_t _pin;
 	uint8_t _lastWrite;

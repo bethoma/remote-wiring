@@ -24,7 +24,6 @@
 
 #include "pch.h"
 #include "ServoControl.h"
-#include "RemoteDevice.h"
 
 using namespace Microsoft::Maker::Firmata;
 //using namespace Microsoft::Maker::RemoteWiring;
