@@ -32,6 +32,8 @@ namespace Microsoft {
 namespace Maker {
 namespace RemoteWiring {
 
+ref class ServoControl;
+
 public enum class PinMode
 {
 	INPUT = 0x00,
@@ -70,8 +72,8 @@ public:
 	event AnalogPinUpdatedCallback ^ AnalogPinUpdatedEvent;
 	event SysexMessageReceivedCallback ^ SysexMessageReceivedEvent;
 	event StringMessageReceivedCallback ^ StringMessageReceivedEvent;
-	friend class TwoWire;
-	friend class ServoControl;
+	friend ref class TwoWire;
+	friend ref class ServoControl;
 
 	property I2c::TwoWire ^ I2c
 	{
@@ -91,7 +93,7 @@ public:
 		{
 			if( _servo == nullptr )
 			{
-				_servo = ref new Microsoft::Maker::RemoteWiring::Servo::ServoControl( _firmata );
+				_servo = ref new Microsoft::Maker::RemoteWiring::Servo::ServoControl( _firmata, this );
 			}
 			return _servo;
 		}
@@ -183,6 +185,8 @@ private:
 
 	//maps the given pin number to the correct port and mask
 	void getPinMap( uint8_t, int *, uint8_t * );
+
+	inline void setPinMode(PinMode mode) {};
 
 	//state-tracking cache variables
 	uint8_t volatile _subscribed_ports[MAX_PORTS];

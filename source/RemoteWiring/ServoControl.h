@@ -22,6 +22,8 @@
     THE SOFTWARE.
 */
 
+#pragma once
+
 namespace Microsoft {
 namespace Maker {
 namespace RemoteWiring {
@@ -35,23 +37,46 @@ public ref class ServoControl sealed
 public:
 	friend ref class RemoteDevice;
 
+	void
+	attach(
+		uint8_t pin_,
+		uint16_t minPulse_,
+		uint16_t maxPulse_
+	);
+
+	void
+	write(
+		uint8_t value_
+		);
+	
+	int
+	read();
+
+	bool
+	attached();
 	
 
 private:
-	
+
 	//singleton pattern w/ friend class to instantiate
 	ServoControl(
-		Firmata::UwpFirmata ^ firmata_
+		Firmata::UwpFirmata ^ firmata_,
+		RemoteWiring::RemoteDevice ^ device_
 		) :
-		_firmata( firmata_ )
+		_firmata( firmata_ ),
+		_device( device_ )
 	{
 	}
 	
 	//a reference to the UAP firmata interface
 	Firmata::UwpFirmata ^_firmata;
+	RemoteWiring::RemoteDevice ^ _device;
+
+	uint8_t _pin;
+	uint8_t _lastWrite;
 };
 
-} // namespace I2c
-} // namespace Wiring
+} // namespace Servo
+} // namespace RemoteWiring
 } // namespace Maker
 } // namespace Microsoft
